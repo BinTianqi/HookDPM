@@ -1,0 +1,28 @@
+[versions]
+agp = "8.4.1"
+kotlin-android = "1.9.24"
+ksp = "1.9.24-1.0.20"
+
+androidx-activity-compose = "1.8.2"
+material3 = "1.2.1"
+xposed-api = "82"
+yukihook-api = "1.2.0"
+androidx-core-ktx = "1.13.0"
+androidx-appcompat = "1.6.1"
+
+[libraries]
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity-compose" }
+androidx-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
+androidx-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
+androidx-ui = { module = "androidx.compose.ui:ui" }
+
+
+xposed-api = { module = "de.robv.android.xposed:api", name = "api", version.ref = "xposed-api" }
+yukihook-api = { module = "com.highcapable.yukihookapi:api", name = "api", version.ref = "yukihook-api" }
+yukihook-ksp-xposed = { module = "com.highcapable.yukihookapi:ksp-xposed", name = "ksp-xposed", version.ref = "yukihook-api" }
+androidx-core = { module = "androidx.core:core-ktx", name = "core-ktx", version.ref = "androidx-core-ktx" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-android" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

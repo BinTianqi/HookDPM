@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name" translatable="false">HookDPM</string>
+    <string name="xposed_desc">Hook DevicePolicyManager</string>
+</resources>
