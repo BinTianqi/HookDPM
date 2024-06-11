@@ -2,6 +2,8 @@ package com.bintianqi.hookdpm
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.material3.Text
 import android.content.ComponentName
 import android.content.pm.PackageManager
 import androidx.core.view.isVisible
@@ -11,9 +13,9 @@ import com.highcapable.yukihookapi.YukiHookAPI
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-	/*setContent {
-
-	}*/
+	setContent {
+            Text(text = "HookDPM")
+	}
     }
 
     /*private fun hideOrShowLauncherIcon(isShow: Boolean) {

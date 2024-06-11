@@ -7,18 +7,18 @@ import com.highcapable.yukihookapi.hook.type.java.BooleanType
 import com.highcapable.yukihookapi.hook.xposed.proxy.IYukiHookXposedInit
 
 @InjectYukiHookWithXposed
-class HookEntry : IYukiHookXposedInit {
+object HookEntry : IYukiHookXposedInit {
     override fun onHook() = encase {
-        loadZygote{
-            /*"android.os.Build".toClass().method {
-                name = "isBuildConsistent"
+        loadSystem{
+            "com.android.server.devicepolicy.DevicePolicyManagerService".toClass().method {
+                name = "hasIncompatibleAccountsOnAnyUser"
                 emptyParam()
                 returnType = BooleanType
             }.hook {
                 after {
-                    result = true
+                    result = false
                 }
-            }*/
+            }
         }
     }
 }
