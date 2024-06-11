@@ -16,7 +16,9 @@ object HookEntry : IYukiHookXposedInit {
                 returnType = BooleanType
             }.hook {
                 after {
-                    result = false
+                    if(prefs.getBoolean("hook", false)) {
+                        result = false
+                    }
                 }
             }
         }
