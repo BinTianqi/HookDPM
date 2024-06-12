@@ -66,10 +66,17 @@ private fun Home() {
                 .padding(top = paddingValues.calculateTopPadding(), start = 10.dp, end = 10.dp),
         ){
             val active = YukiHookAPI.Status.isModuleActive
-            var hook by remember { mutableStateOf(false) }
+            // HIAOAU: hasIncompatibleAccountsOnAnyUser
+            // IPA: isProvisioningAllowed
+            // CPP: checkProvisioningPreCondition
+            var hookHIAOAU by remember { mutableStateOf(false) }
+            var hookIPA by remember { mutableStateOf(false) }
+            var hookCPP by remember { mutableStateOf(false) }
             var hideIcon by remember { mutableStateOf(false) }
             LaunchedEffect(Unit) {
-                hook = context.prefs().getBoolean("hook", false)
+                hookHIAOAU = context.prefs().getBoolean("hook_hiaoau", false)
+                hookIPA = context.prefs().getBoolean("hook_ipa", false)
+                hookCPP = context.prefs().getBoolean("hook_cpp", false)
                 hideIcon = isLauncherIconHiding(context)
             }
             Text(text = "Module active: $active")
@@ -87,11 +94,27 @@ private fun Home() {
                 }
             )
             SwitchItem(
-                text = "Hook",
-                checked = hook,
+                text = "Bypass accounts limit",
+                checked = hookHIAOAU,
                 onCheckedChange = {
-                    context.prefs().edit{ putBoolean("hook", it) }
-                    hook = context.prefs().getBoolean("hook", false)
+                    context.prefs().edit{ putBoolean("hook_hiaoau", it) }
+                    hookHIAOAU = context.prefs().getBoolean("hook_hiaoau", false)
+                }
+            )
+            SwitchItem(
+                text = "Always allow creating work profile",
+                checked = hookIPA,
+                onCheckedChange = {
+                    context.prefs().edit{ putBoolean("hook_ipa", it) }
+                    hookIPA = context.prefs().getBoolean("hook_ipa", false)
+                }
+            )
+            SwitchItem(
+                text = "Skip provisioning check",
+                checked = hookCPP,
+                onCheckedChange = {
+                    context.prefs().edit{ putBoolean("hook_cpp", it) }
+                    hookCPP = context.prefs().getBoolean("hook_cpp", false)
                 }
             )
         }
@@ -107,7 +130,7 @@ private fun SwitchItem(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = text, style = MaterialTheme.typography.titleLarge)
+        Text(text = text)
         Switch(
             checked = checked,
             onCheckedChange = onCheckedChange
