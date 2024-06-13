@@ -25,6 +25,17 @@ object HookEntry : IYukiHookXposedInit {
                 }
             }
             dpms.method {
+                name = "nonTestNonPrecreatedUsersExist"
+                emptyParam()
+                returnType = BooleanType
+            }.hook {
+                after {
+                    if(prefs.getBoolean("hook_ntnpue", false)) {
+                        result = false
+                    }
+                }
+            }
+            dpms.method {
                 name = "isProvisioningAllowed"
                 param(StringClass, StringClass)
                 returnType = BooleanType

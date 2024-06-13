@@ -67,14 +67,17 @@ private fun Home() {
         ){
             val active = YukiHookAPI.Status.isModuleActive
             // HIAOAU: hasIncompatibleAccountsOnAnyUser
+            // NTNPUE: nonTestNonPrecreatedUsersExist
             // IPA: isProvisioningAllowed
             // CPP: checkProvisioningPreCondition
             var hookHIAOAU by remember { mutableStateOf(false) }
+            var hookNTNPUE by remember { mutableStateOf(false) }
             var hookIPA by remember { mutableStateOf(false) }
             var hookCPP by remember { mutableStateOf(false) }
             var hideIcon by remember { mutableStateOf(false) }
             LaunchedEffect(Unit) {
                 hookHIAOAU = context.prefs().getBoolean("hook_hiaoau", false)
+                hookNTNPUE = context.prefs().getBoolean("hook_ntnpue", false)
                 hookIPA = context.prefs().getBoolean("hook_ipa", false)
                 hookCPP = context.prefs().getBoolean("hook_cpp", false)
                 hideIcon = isLauncherIconHiding(context)
@@ -93,12 +96,21 @@ private fun Home() {
                     hideIcon = isLauncherIconHiding(context)
                 }
             )
+            Spacer(Modifier.padding(vertical = 5.dp))
             SwitchItem(
                 text = "Bypass accounts limit",
                 checked = hookHIAOAU,
                 onCheckedChange = {
                     context.prefs().edit{ putBoolean("hook_hiaoau", it) }
                     hookHIAOAU = context.prefs().getBoolean("hook_hiaoau", false)
+                }
+            )
+            SwitchItem(
+                text = "Bypass users limit",
+                checked = hookNTNPUE,
+                onCheckedChange = {
+                    context.prefs().edit{ putBoolean("hook_ntnpue", it) }
+                    hookNTNPUE = context.prefs().getBoolean("hook_ntnpue", false)
                 }
             )
             SwitchItem(
