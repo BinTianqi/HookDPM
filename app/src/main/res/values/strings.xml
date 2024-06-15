@@ -1,4 +1,14 @@
 <resources>
     <string name="app_name" translatable="false">HookDPM</string>
     <string name="xposed_desc">Hook DevicePolicyManager</string>
+    <string name="module_activated">Module activated</string>
+    <string name="module_not_activated">Module not activated</string>
+    <string name="module_version_is">Module version:</string>
+    <string name="hide_launcher_icon">Hide launcher icon</string>
+    <string name="bypass_accounts_limit">Bypass accounts limit</string>
+    <string name="bypass_users_limit">Bypass users limit</string>
+    <string name="danger_zone">Danger zone</string>
+    <string name="always_allow_provisioning">Always allow provisioning</string>
+    <string name="skip_provisioning_check">Skip provisioning check</string>
+
 </resources>

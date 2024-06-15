@@ -8,12 +8,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
@@ -63,9 +65,10 @@ private fun Home() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .verticalScroll(rememberScrollState())
                 .padding(top = paddingValues.calculateTopPadding(), start = 10.dp, end = 10.dp),
         ){
-            val active = YukiHookAPI.Status.isModuleActive
+            val active = YukiHookAPI.Status.isXposedModuleActive
             // HIAOAU: hasIncompatibleAccountsOnAnyUser
             // NTNPUE: nonTestNonPrecreatedUsersExist
             // IPA: isProvisioningAllowed
@@ -76,15 +79,33 @@ private fun Home() {
             var hookCPP by remember { mutableStateOf(false) }
             var hideIcon by remember { mutableStateOf(false) }
             LaunchedEffect(Unit) {
-                hookHIAOAU = context.prefs().getBoolean("hook_hiaoau", false)
-                hookNTNPUE = context.prefs().getBoolean("hook_ntnpue", false)
-                hookIPA = context.prefs().getBoolean("hook_ipa", false)
-                hookCPP = context.prefs().getBoolean("hook_cpp", false)
+                if(active) {
+                    hookHIAOAU = context.prefs().getBoolean("hook_hiaoau", false)
+                    hookNTNPUE = context.prefs().getBoolean("hook_ntnpue", false)
+                    hookIPA = context.prefs().getBoolean("hook_ipa", false)
+                    hookCPP = context.prefs().getBoolean("hook_cpp", false)
+                }
                 hideIcon = isLauncherIconHiding(context)
             }
-            Text(text = "Module active: $active")
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(15))
+                    .background(MaterialTheme.colorScheme.primary)
+                    .padding(10.dp)
+            ) {
+                Text(
+                    text = stringResource(if(active) R.string.module_activated else R.string.module_not_activated),
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+                Text(
+                    text = stringResource(R.string.module_version_is) + BuildConfig.VERSION_NAME,
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+            }
             SwitchItem(
-                text = "Hide Launcher icon",
+                text = stringResource(R.string.hide_launcher_icon),
                 checked = hideIcon,
                 onCheckedChange = {
                     context.packageManager?.setComponentEnabledSetting(
@@ -96,39 +117,50 @@ private fun Home() {
                     hideIcon = isLauncherIconHiding(context)
                 }
             )
-            Spacer(Modifier.padding(vertical = 5.dp))
-            SwitchItem(
-                text = "Bypass accounts limit",
-                checked = hookHIAOAU,
-                onCheckedChange = {
-                    context.prefs().edit{ putBoolean("hook_hiaoau", it) }
-                    hookHIAOAU = context.prefs().getBoolean("hook_hiaoau", false)
-                }
-            )
-            SwitchItem(
-                text = "Bypass users limit",
-                checked = hookNTNPUE,
-                onCheckedChange = {
-                    context.prefs().edit{ putBoolean("hook_ntnpue", it) }
-                    hookNTNPUE = context.prefs().getBoolean("hook_ntnpue", false)
-                }
-            )
-            SwitchItem(
-                text = "Always allow creating work profile",
-                checked = hookIPA,
-                onCheckedChange = {
-                    context.prefs().edit{ putBoolean("hook_ipa", it) }
-                    hookIPA = context.prefs().getBoolean("hook_ipa", false)
-                }
-            )
-            SwitchItem(
-                text = "Skip provisioning check",
-                checked = hookCPP,
-                onCheckedChange = {
-                    context.prefs().edit{ putBoolean("hook_cpp", it) }
-                    hookCPP = context.prefs().getBoolean("hook_cpp", false)
-                }
-            )
+            Spacer(Modifier.padding(vertical = 10.dp))
+            if(active) {
+                Text(
+                    text = "Hook",
+                    style = MaterialTheme.typography.titleLarge
+                )
+                SwitchItem(
+                    text = stringResource(R.string.bypass_accounts_limit),
+                    checked = hookHIAOAU,
+                    onCheckedChange = {
+                        context.prefs().edit{ putBoolean("hook_hiaoau", it) }
+                        hookHIAOAU = context.prefs().getBoolean("hook_hiaoau", false)
+                    }
+                )
+                SwitchItem(
+                    text = stringResource(R.string.bypass_users_limit),
+                    checked = hookNTNPUE,
+                    onCheckedChange = {
+                        context.prefs().edit{ putBoolean("hook_ntnpue", it) }
+                        hookNTNPUE = context.prefs().getBoolean("hook_ntnpue", false)
+                    }
+                )
+                Spacer(Modifier.padding(vertical = 10.dp))
+                Text(
+                    text = stringResource(R.string.danger_zone),
+                    style = MaterialTheme.typography.titleLarge
+                )
+                SwitchItem(
+                    text = stringResource(R.string.always_allow_provisioning),
+                    checked = hookIPA,
+                    onCheckedChange = {
+                        context.prefs().edit{ putBoolean("hook_ipa", it) }
+                        hookIPA = context.prefs().getBoolean("hook_ipa", false)
+                    }
+                )
+                SwitchItem(
+                    text = stringResource(R.string.skip_provisioning_check),
+                    checked = hookCPP,
+                    onCheckedChange = {
+                        context.prefs().edit{ putBoolean("hook_cpp", it) }
+                        hookCPP = context.prefs().getBoolean("hook_cpp", false)
+                    }
+                )
+            }
         }
     }
 }
