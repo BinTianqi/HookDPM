@@ -71,10 +71,12 @@ private fun Home() {
             val active = YukiHookAPI.Status.isXposedModuleActive
             // HIAOAU: hasIncompatibleAccountsOnAnyUser
             // NTNPUE: nonTestNonPrecreatedUsersExist
+            // ECSPOL: enforceCanSetProfileOwnerLocked
             // IPA: isProvisioningAllowed
             // CPP: checkProvisioningPreCondition
             var hookHIAOAU by remember { mutableStateOf(false) }
             var hookNTNPUE by remember { mutableStateOf(false) }
+            var hookECSPOL by remember { mutableStateOf(false) }
             var hookIPA by remember { mutableStateOf(false) }
             var hookCPP by remember { mutableStateOf(false) }
             var hideIcon by remember { mutableStateOf(false) }
@@ -82,6 +84,7 @@ private fun Home() {
                 if(active) {
                     hookHIAOAU = context.prefs().getBoolean("hook_hiaoau", false)
                     hookNTNPUE = context.prefs().getBoolean("hook_ntnpue", false)
+                    hookECSPOL = context.prefs().getBoolean("hook_ecspol", false)
                     hookIPA = context.prefs().getBoolean("hook_ipa", false)
                     hookCPP = context.prefs().getBoolean("hook_cpp", false)
                 }
@@ -137,6 +140,14 @@ private fun Home() {
                     onCheckedChange = {
                         context.prefs().edit{ putBoolean("hook_ntnpue", it) }
                         hookNTNPUE = context.prefs().getBoolean("hook_ntnpue", false)
+                    }
+                )
+                SwitchItem(
+                    text = stringResource(R.string.force_set_profile_owner),
+                    checked = hookECSPOL,
+                    onCheckedChange = {
+                        context.prefs().edit{ putBoolean("hook_ecspol", it) }
+                        hookECSPOL = context.prefs().getBoolean("hook_ecspol", false)
                     }
                 )
                 Spacer(Modifier.padding(vertical = 10.dp))
