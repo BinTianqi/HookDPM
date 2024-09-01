@@ -3,7 +3,7 @@ agp = "8.5.0"
 kt = "1.9.24"
 ksp = "1.9.24-1.0.20"
 
-androidx-activity-compose = "1.8.2"
+androidx-activity-compose = "1.9.0"
 material3 = "1.2.1"
 xposed-api = "82"
 yukihook-api = "1.2.0"

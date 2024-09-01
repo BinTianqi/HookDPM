@@ -74,17 +74,17 @@ private fun Home() {
             // ECSPOL: enforceCanSetProfileOwnerLocked
             // IPA: isProvisioningAllowed
             // CPP: checkProvisioningPreCondition
-            var hookHIAOAU by remember { mutableStateOf(false) }
-            var hookNTNPUE by remember { mutableStateOf(false) }
-            var hookECSPOL by remember { mutableStateOf(false) }
+            var forceDO by remember { mutableStateOf(false) }
+            var forcePO by remember { mutableStateOf(false) }
             var hookIPA by remember { mutableStateOf(false) }
             var hookCPP by remember { mutableStateOf(false) }
+            var enhancedMode by remember { mutableStateOf(false) }
             var hideIcon by remember { mutableStateOf(false) }
             LaunchedEffect(Unit) {
                 if(active) {
-                    hookHIAOAU = context.prefs().getBoolean("hook_hiaoau", false)
-                    hookNTNPUE = context.prefs().getBoolean("hook_ntnpue", false)
-                    hookECSPOL = context.prefs().getBoolean("hook_ecspol", false)
+                    forceDO = context.prefs().getBoolean("force_do", false)
+                    forcePO = context.prefs().getBoolean("force_po", false)
+                    enhancedMode = context.prefs().getBoolean("enhanced_mode", false)
                     hookIPA = context.prefs().getBoolean("hook_ipa", false)
                     hookCPP = context.prefs().getBoolean("hook_cpp", false)
                 }
@@ -127,27 +127,27 @@ private fun Home() {
                     style = MaterialTheme.typography.titleLarge
                 )
                 SwitchItem(
-                    text = stringResource(R.string.bypass_accounts_limit),
-                    checked = hookHIAOAU,
+                    text = stringResource(R.string.force_set_device_owner),
+                    checked = forceDO,
                     onCheckedChange = {
-                        context.prefs().edit{ putBoolean("hook_hiaoau", it) }
-                        hookHIAOAU = context.prefs().getBoolean("hook_hiaoau", false)
-                    }
-                )
-                SwitchItem(
-                    text = stringResource(R.string.bypass_users_limit),
-                    checked = hookNTNPUE,
-                    onCheckedChange = {
-                        context.prefs().edit{ putBoolean("hook_ntnpue", it) }
-                        hookNTNPUE = context.prefs().getBoolean("hook_ntnpue", false)
+                        context.prefs().edit{ putBoolean("force_do", it) }
+                        forceDO = context.prefs().getBoolean("force_do", false)
                     }
                 )
                 SwitchItem(
                     text = stringResource(R.string.force_set_profile_owner),
-                    checked = hookECSPOL,
+                    checked = forcePO,
                     onCheckedChange = {
-                        context.prefs().edit{ putBoolean("hook_ecspol", it) }
-                        hookECSPOL = context.prefs().getBoolean("hook_ecspol", false)
+                        context.prefs().edit{ putBoolean("force_po", it) }
+                        forcePO = context.prefs().getBoolean("force_po", false)
+                    }
+                )
+                SwitchItem(
+                    text = stringResource(R.string.enhanced_mode),
+                    checked = enhancedMode,
+                    onCheckedChange = {
+                        context.prefs().edit{ putBoolean("enhanced_mode", it) }
+                        enhancedMode = context.prefs().getBoolean("enhanced_mode", false)
                     }
                 )
                 Spacer(Modifier.padding(vertical = 10.dp))

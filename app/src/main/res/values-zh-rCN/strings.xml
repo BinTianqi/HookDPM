@@ -5,9 +5,9 @@
     <string name="module_not_activated">模块未激活</string>
     <string name="module_version_is">模块版本：</string>
     <string name="hide_launcher_icon">隐藏启动器图标</string>
-    <string name="bypass_accounts_limit">绕过账户数量限制</string>
-    <string name="bypass_users_limit">绕过用户数量限制</string>
+    <string name="force_set_device_owner">强制设置Device owner</string>
     <string name="force_set_profile_owner">强制设置Profile owner</string>
+    <string name="enhanced_mode">增强模式</string>
     <string name="danger_zone">危险功能</string>
     <string name="always_allow_provisioning">总是允许创建工作资料</string>
     <string name="skip_provisioning_check">跳过创建工作资料检查</string>

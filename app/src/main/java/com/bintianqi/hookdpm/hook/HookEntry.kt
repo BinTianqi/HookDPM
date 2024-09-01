@@ -1,6 +1,5 @@
 package com.bintianqi.hookdpm.hook
 
-import android.util.Log
 import com.highcapable.yukihookapi.annotation.xposed.InjectYukiHookWithXposed
 import com.highcapable.yukihookapi.hook.factory.encase
 import com.highcapable.yukihookapi.hook.factory.method
@@ -16,14 +15,12 @@ object HookEntry : IYukiHookXposedInit {
         loadSystem{
             val dpms = "com.android.server.devicepolicy.DevicePolicyManagerService".toClass()
             dpms.method {
-                name = "hasIncompatibleAccountsOnAnyUser"
-                emptyParam()
-                returnType = BooleanType
+                name = "enforceCanSetDeviceOwnerLocked"
+                paramCount = 4
+                returnType = UnitType
             }.hook {
-                after {
-                    if(prefs.getBoolean("hook_hiaoau", false)) {
-                        result = false
-                    }
+                if(prefs.getBoolean("force_do", false)) {
+                    replaceUnit { }
                 }
             }
             dpms.method {
@@ -31,9 +28,26 @@ object HookEntry : IYukiHookXposedInit {
                 paramCount = 4
                 returnType = UnitType
             }.hook {
-                if(prefs.getBoolean("hook_ecspol", false)) {
-                    Log.d("HookDPM", "ECSPOL hooked")
+                if(prefs.getBoolean("force_po", false)) {
                     replaceUnit { }
+                }
+            }
+            dpms.method {
+                name = "hasIncompatibleAccountsOnAnyUser"
+                emptyParam()
+                returnType = BooleanType
+            }.hook {
+                if(prefs.getBoolean("enhanced_mode", false)) {
+                    replaceToFalse()
+                }
+            }
+            dpms.method {
+                name = "hasAccountsOnAnyUser"
+                emptyParam()
+                returnType = BooleanType
+            }.hook {
+                if(prefs.getBoolean("enhanced_mode", false)) {
+                    replaceToFalse()
                 }
             }
             dpms.method {
@@ -41,10 +55,8 @@ object HookEntry : IYukiHookXposedInit {
                 emptyParam()
                 returnType = BooleanType
             }.hook {
-                after {
-                    if(prefs.getBoolean("hook_ntnpue", false)) {
-                        result = false
-                    }
+                if(prefs.getBoolean("enhanced_mode", false)) {
+                    replaceToFalse()
                 }
             }
             dpms.method {
