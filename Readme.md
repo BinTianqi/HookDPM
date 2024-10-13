@@ -8,14 +8,18 @@ Build with YukiHook API / 使用YukiHookAPI构建
 
 ## Features
 
-- Force set Device owner
-- Force set Profile owner
+- Bypass account check
+
+- **[Danger]** Force set Device owner
+- **[Danger]** Force set Profile owner
 - **[Danger]** Always allow provisioning (create work profile)
 - **[Danger]** Skip provisioning check
 
 ## 功能
 
-- 强制激活Device owner
-- 强制激活Profile owner
+- 绕过账号检查
+
+- **【危险】** 强制设置Device owner
+- **【危险】** 强制设置Profile owner
 - **【危险】** 总是允许创建工作资料
 - **【危险】** 跳过创建工作资料的检查

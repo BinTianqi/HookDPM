@@ -66,27 +66,24 @@ private fun Home() {
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(top = paddingValues.calculateTopPadding(), start = 10.dp, end = 10.dp),
+                .padding(top = paddingValues.calculateTopPadding(), start = 12.dp, end = 12.dp),
         ){
             val active = YukiHookAPI.Status.isXposedModuleActive
-            // HIAOAU: hasIncompatibleAccountsOnAnyUser
-            // NTNPUE: nonTestNonPrecreatedUsersExist
-            // ECSPOL: enforceCanSetProfileOwnerLocked
             // IPA: isProvisioningAllowed
             // CPP: checkProvisioningPreCondition
             var forceDO by remember { mutableStateOf(false) }
             var forcePO by remember { mutableStateOf(false) }
             var hookIPA by remember { mutableStateOf(false) }
             var hookCPP by remember { mutableStateOf(false) }
-            var enhancedMode by remember { mutableStateOf(false) }
             var hideIcon by remember { mutableStateOf(false) }
+            var bypassAccountCheck by remember { mutableStateOf(false) }
             LaunchedEffect(Unit) {
                 if(active) {
                     forceDO = context.prefs().getBoolean("force_do", false)
                     forcePO = context.prefs().getBoolean("force_po", false)
-                    enhancedMode = context.prefs().getBoolean("enhanced_mode", false)
                     hookIPA = context.prefs().getBoolean("hook_ipa", false)
                     hookCPP = context.prefs().getBoolean("hook_cpp", false)
+                    bypassAccountCheck = context.prefs().getBoolean("bypass_account_check", false)
                 }
                 hideIcon = isLauncherIconHiding(context)
             }
@@ -127,6 +124,19 @@ private fun Home() {
                     style = MaterialTheme.typography.titleLarge
                 )
                 SwitchItem(
+                    text = stringResource(R.string.bypass_account_check),
+                    checked = bypassAccountCheck,
+                    onCheckedChange = {
+                        context.prefs().edit{ putBoolean("bypass_account_check", it) }
+                        bypassAccountCheck = context.prefs().getBoolean("bypass_account_check", false)
+                    }
+                )
+                Spacer(Modifier.padding(vertical = 10.dp))
+                Text(
+                    text = stringResource(R.string.danger_zone),
+                    style = MaterialTheme.typography.titleLarge
+                )
+                SwitchItem(
                     text = stringResource(R.string.force_set_device_owner),
                     checked = forceDO,
                     onCheckedChange = {
@@ -141,19 +151,6 @@ private fun Home() {
                         context.prefs().edit{ putBoolean("force_po", it) }
                         forcePO = context.prefs().getBoolean("force_po", false)
                     }
-                )
-                SwitchItem(
-                    text = stringResource(R.string.enhanced_mode),
-                    checked = enhancedMode,
-                    onCheckedChange = {
-                        context.prefs().edit{ putBoolean("enhanced_mode", it) }
-                        enhancedMode = context.prefs().getBoolean("enhanced_mode", false)
-                    }
-                )
-                Spacer(Modifier.padding(vertical = 10.dp))
-                Text(
-                    text = stringResource(R.string.danger_zone),
-                    style = MaterialTheme.typography.titleLarge
                 )
                 SwitchItem(
                     text = stringResource(R.string.always_allow_provisioning),

@@ -5,9 +5,9 @@
     <string name="module_not_activated">Module not activated</string>
     <string name="module_version_is">Module version:</string>
     <string name="hide_launcher_icon">Hide launcher icon</string>
+    <string name="bypass_account_check">Bypass account check</string>
     <string name="force_set_device_owner">Force set Device owner</string>
     <string name="force_set_profile_owner">Force set Profile owner</string>
-    <string name="enhanced_mode">Enhanced mode</string>
     <string name="danger_zone">Danger zone</string>
     <string name="always_allow_provisioning">Always allow provisioning</string>
     <string name="skip_provisioning_check">Skip provisioning check</string>

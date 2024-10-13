@@ -12,7 +12,7 @@ import com.highcapable.yukihookapi.hook.xposed.proxy.IYukiHookXposedInit
 @InjectYukiHookWithXposed
 object HookEntry : IYukiHookXposedInit {
     override fun onHook() = encase {
-        loadSystem{
+        loadSystem {
             val dpms = "com.android.server.devicepolicy.DevicePolicyManagerService".toClass()
             dpms.method {
                 name = "enforceCanSetDeviceOwnerLocked"
@@ -20,7 +20,16 @@ object HookEntry : IYukiHookXposedInit {
                 returnType = UnitType
             }.hook {
                 if(prefs.getBoolean("force_do", false)) {
-                    replaceUnit { }
+                    replaceTo(Unit)
+                }
+            }
+            dpms.method {
+                name = "checkDeviceOwnerProvisioningPreConditionLocked"
+                paramCount = 5
+                returnType = IntType
+            }.hook {
+                if(prefs.getBoolean("force_do", false)) {
+                    replaceTo(0)
                 }
             }
             dpms.method {
@@ -37,7 +46,7 @@ object HookEntry : IYukiHookXposedInit {
                 emptyParam()
                 returnType = BooleanType
             }.hook {
-                if(prefs.getBoolean("enhanced_mode", false)) {
+                if(prefs.getBoolean("bypass_account_check", false)) {
                     replaceToFalse()
                 }
             }
@@ -46,7 +55,7 @@ object HookEntry : IYukiHookXposedInit {
                 emptyParam()
                 returnType = BooleanType
             }.hook {
-                if(prefs.getBoolean("enhanced_mode", false)) {
+                if(prefs.getBoolean("bypass_account_check", false)) {
                     replaceToFalse()
                 }
             }

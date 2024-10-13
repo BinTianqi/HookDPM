@@ -12,8 +12,8 @@ android {
         applicationId = "com.bintianqi.hookdpm"
         minSdk = 23
         targetSdk = 34
-        versionName = "1.0"
-        versionCode = 1
+        versionName = "1.1"
+        versionCode = 2
     }
     buildTypes {
         release {
@@ -47,9 +47,7 @@ dependencies {
     compileOnly(libs.xposed.api)
     implementation(libs.yukihook.api)
     ksp(libs.yukihook.ksp.xposed)
-    implementation(libs.androidx.core)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
 }
