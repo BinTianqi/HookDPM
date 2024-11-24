@@ -20,7 +20,7 @@ object HookEntry : IYukiHookXposedInit {
                 returnType = UnitType
             }.hook {
                 if(prefs.getBoolean("force_do", false)) {
-                    replaceTo(Unit)
+                    replaceUnit {  }
                 }
             }
             dpms.method {
@@ -28,8 +28,10 @@ object HookEntry : IYukiHookXposedInit {
                 paramCount = 5
                 returnType = IntType
             }.hook {
-                if(prefs.getBoolean("force_do", false)) {
-                    replaceTo(0)
+                after {
+                    if(prefs.getBoolean("force_do", false)) {
+                        result = 0
+                    }
                 }
             }
             dpms.method {
@@ -46,8 +48,10 @@ object HookEntry : IYukiHookXposedInit {
                 emptyParam()
                 returnType = BooleanType
             }.hook {
-                if(prefs.getBoolean("bypass_account_check", false)) {
-                    replaceToFalse()
+                after {
+                    if(prefs.getBoolean("bypass_account_check", false)) {
+                        result = false
+                    }
                 }
             }
             dpms.method {
@@ -55,8 +59,10 @@ object HookEntry : IYukiHookXposedInit {
                 emptyParam()
                 returnType = BooleanType
             }.hook {
-                if(prefs.getBoolean("bypass_account_check", false)) {
-                    replaceToFalse()
+                after {
+                    if(prefs.getBoolean("bypass_account_check", false)) {
+                        result = false
+                    }
                 }
             }
             dpms.method {
@@ -64,8 +70,10 @@ object HookEntry : IYukiHookXposedInit {
                 emptyParam()
                 returnType = BooleanType
             }.hook {
-                if(prefs.getBoolean("enhanced_mode", false)) {
-                    replaceToFalse()
+                after {
+                    if(prefs.getBoolean("enhanced_mode", false)) {
+                        result = false
+                    }
                 }
             }
             dpms.method {
